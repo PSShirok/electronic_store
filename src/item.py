@@ -25,7 +25,6 @@ class Item:
     def __str__(self):
         return f"{self.__name}"
 
-
     def __repr__(self):
         return f"{self.__class__.__name__}{self.__name,self.price,self.quantity }"
 
@@ -40,7 +39,6 @@ class Item:
         else:
             self.__name = name_str[:10]
 
-
     @classmethod
     def instantiate_from_csv(cls):
         with open("../src/items.csv") as file:
@@ -51,8 +49,6 @@ class Item:
     @staticmethod
     def string_to_number(number):
         return int(number[0])
-
-
 
     def calculate_total_price(self) -> float:
         """
