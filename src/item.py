@@ -39,12 +39,12 @@ class Item:
         else:
             self.__name = name_str[:10]
 
-    @classmethod
-    def instantiate_from_csv(cls):
-        with open("../src/items.csv") as file:
-            data = csv.DictReader(file, delimiter=",")
-            for row in data:
-                item = cls(row["name"], row["price"], row['quantity'])
+    # @classmethod
+    # def instantiate_from_csv(cls):
+    #     with open("../src/items.csv") as file:
+    #         data = csv.DictReader(file, delimiter=",")
+    #         for row in data:
+    #             item = cls(row["name"], row["price"], row['quantity'])
 
     @staticmethod
     def string_to_number(number):
@@ -63,3 +63,6 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * self.pay_rate
+
+    def __add__(self, other):
+        return self.quantity + other.quantity
