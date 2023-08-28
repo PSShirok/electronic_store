@@ -1,23 +1,22 @@
 from src.item import Item
-from abc import ABC, abstractmethod
 
 
-class Mixin(ABC):
+class Mixin:
 
-    @abstractmethod
+    def __init__(self):
+        self.__language = "EN"
+
     def change_lang(self):
-        pass
+        self.__language = "RU" if self.__language == "EN" else "EN"
+        return self
+
+    @property
+    def language(self):
+        return self.__language
+
 
 class Keyboard(Item, Mixin):
 
     def __init__(self, name: str, price: float, quantity: int):
         super().__init__(name, price, quantity)
-        self.language = "EN"
-
-    def change_lang(self):
-        self.language = "RU" if self.language == "EN" else "EN"
-
-
-
-
-
+        Mixin.__init__(self)
