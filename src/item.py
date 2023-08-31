@@ -1,4 +1,11 @@
 import csv
+import os
+
+
+class InstantiateCSVError(Exception):
+
+    def __init__(self):
+        self.message = f"_Файл item.csv поврежден_"
 
 
 class Item:
@@ -26,7 +33,7 @@ class Item:
         return f"{self.__name}"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}{self.__name,self.price,self.quantity }"
+        return f"{self.__class__.__name__}{self.__name, self.price, self.quantity}"
 
     @property
     def name(self):
@@ -39,12 +46,23 @@ class Item:
         else:
             self.__name = name_str[:10]
 
-    # @classmethod
-    # def instantiate_from_csv(cls):
-    #     with open("../src/items.csv") as file:
-    #         data = csv.DictReader(file, delimiter=",")
-    #         for row in data:
-    #             item = cls(row["name"], row["price"], row['quantity'])
+    @classmethod
+    def instantiate_from_csv(cls):
+        try:
+            open("item.csv")
+        except FileNotFoundError:
+            print('_Отсутствует файл item.csv_')
+        finally:
+            with open('../src/items.csv') as csvfile:
+                reader = csv.DictReader(csvfile)
+                try:
+                    if not "quantit" in reader.fieldnames:
+                        raise InstantiateCSVError
+                except InstantiateCSVError:
+                    print(InstantiateCSVError().message)
+                for line in reader:
+                    item = cls(line['name'], line['price'], line["quantity"])
+
 
     @staticmethod
     def string_to_number(number):
@@ -66,3 +84,4 @@ class Item:
 
     def __add__(self, other):
         return self.quantity + other.quantity
+

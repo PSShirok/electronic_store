@@ -1,6 +1,9 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
-from src.item import Item
+import csv
+
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
+import pytest
 
 
 class TestItem:
@@ -44,5 +47,15 @@ def test_Phone():
 
 def test_repr_phone():
     assert repr(phone1) == "Phone('iPhone 14', 120000, 5, 2)"
+
+def test_instantiate_from_csv():
+    with pytest.raises(FileNotFoundError):
+        open("item.csv")
+    with pytest.raises(InstantiateCSVError):
+        with open('../src/items.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            if not "quantit" in reader.fieldnames:
+                raise InstantiateCSVError
+
 
 
